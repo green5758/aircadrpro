@@ -28,5 +28,35 @@
     "scenario_slug": "",
     "category": "Full Product Review",
     "date": "2026-11-24"
+  },
+  {
+    "slug": "levoit-core-600s-cadr-review",
+    "title": "Levoit Core 600S Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "levoit-core-600s",
+    "product2_id": "",
+    "scenario_slug": "",
+    "category": "Full Product Review",
+    "date": "2026-11-24"
+  },
+  {
+    "slug": "blueair-blue-pure-211i-max-cadr-review",
+    "title": "Blueair Blue Pure 211i Max Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "blueair-blue-pure-211i-max",
+    "product2_id": "",
+    "scenario_slug": "",
+    "category": "Full Product Review",
+    "date": "2026-11-24"
+  },
+  {
+    "slug": "levoit-vital-200s-cadr-review",
+    "title": "Levoit Vital 200S Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "levoit-vital-200s",
+    "product2_id": "",
+    "scenario_slug": "",
+    "category": "Full Product Review",
+    "date": "2026-11-24"
   }
 ]
