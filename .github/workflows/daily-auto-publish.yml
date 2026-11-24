@@ -1,0 +1,42 @@
+name: Daily AirCADRPro Auto-Build & Publish
+
+on:
+  schedule:
+    # Berjalan otomatis setiap hari pukul 06:17 UTC (13:17 WIB)
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate Website, 3 Daily Reviews, Sitemap, RSS & Ping IndexNow
+        env:
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        run: python scripts/generate_site.py
+
+      - name: Commit and Push Daily Updates
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/ README.md
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Auto-publish: 3 new HEPA purifier reviews & SEO sitemap update [$(date -u +'%Y-%m-%d')]"
+            git push origin HEAD
+          else
+            echo "No changes to commit."
+          fi
