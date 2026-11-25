@@ -1647,7 +1647,7 @@ def render_homepage(all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{SITE_NAME} — HEPA Air Purifier CADR &amp; ACH Room Sizing Calculator ({CURRENT_YEAR})</title>
-  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
+  <meta name="google-site-verification" content="pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8" />
   <meta name="description" content="Calculate exact HEPA air purifier CADR (CFM & m³/h) for your room dimensions, ceiling height, allergies, or wildfire smoke. Compare 36+ models & read 3 fresh reviews daily.">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{SITE_NAME} — HEPA Air Purifier CADR & ACH Calculator">
