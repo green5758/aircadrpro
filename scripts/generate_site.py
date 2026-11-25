@@ -15,6 +15,9 @@ SITE_NAME = "AirCADRPro"
 SITE_TAGLINE = "Precision HEPA Air Purifier CADR & ACH Room Sizing Calculator"
 ARTICLES_PER_RUN = 3
 
+# Tag verifikasi Google Search Console
+GOOGLE_SITE_VERIFICATION = "pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8"
+
 OWNER = os.environ.get("GITHUB_OWNER", "username")
 REPO = os.environ.get("GITHUB_REPO", "aircadrpro")
 if REPO.lower() == f"{OWNER.lower()}.github.io":
@@ -759,7 +762,7 @@ PRODUCTS = [
 ]
 
 # ==============================================================================
-# SPECIALIZED REVIEW ANGLES (360+ DEEP-DIVE SCENARIOS)
+# SPECIALIZED REVIEW ANGLES
 # ==============================================================================
 SCENARIOS = [
     {
@@ -834,6 +837,9 @@ SCENARIOS = [
     }
 ]
 
+# ==============================================================================
+# FAQS
+# ==============================================================================
 FAQS = [
     {
         "q": "What is CADR and how do I calculate the exact size I need?",
@@ -869,7 +875,6 @@ FAQS = [
     }
 ]
 
-
 # ==============================================================================
 # HELPER FUNCTIONS
 # ==============================================================================
@@ -879,12 +884,10 @@ def amazon_link(query_text: str) -> str:
 
 
 def calc_room_at_ach(cadr_cfm: float, ach: float, ceiling_ft: float = 8.0) -> int:
-    # Area = (CADR * 60) / (ACH * ceiling)
     return int(round((cadr_cfm * 60.0) / (ach * ceiling_ft)))
 
 
 def calc_annual_power_cost(watts: float, kwh_rate: float = 0.16) -> float:
-    # Assume realistic 24/7 blended usage at ~55% of max wattage
     avg_watts = watts * 0.55
     annual_kwh = (avg_watts * 24 * 365) / 1000.0
     return round(annual_kwh * kwh_rate, 2)
@@ -892,20 +895,12 @@ def calc_annual_power_cost(watts: float, kwh_rate: float = 0.16) -> float:
 
 def calc_5yr_tco(product: dict) -> int:
     power_5yr = calc_annual_power_cost(product["watts"]) * 5
-    filters_4yr = product["filter_cost_yr"] * 4  # Year 1 filter included in box
+    filters_4yr = product["filter_cost_yr"] * 4
     return int(round(product["price_est"] + power_5yr + filters_4yr))
 
 
 def build_review_queue() -> list:
-    """
-    Deterministic queue of 1,000+ completely distinct review articles:
-      1) 36 Flagship Standalone Reviews (Days 1-12)
-      2) 360 Scenario-Specific CADR Deep-Dives (Days 13-132)
-      3) 630 Head-to-Head Model Showdowns (Days 133-342)
-    """
     queue = []
-
-    # Tier 1: Standalone flagship model reviews
     for p in PRODUCTS:
         queue.append({
             "type": "standalone",
@@ -914,8 +909,6 @@ def build_review_queue() -> list:
             "product_id": p["id"],
             "category": "Full Product Review"
         })
-
-    # Tier 2: Scenario-specific deep dives (interleaved by scenario so daily 3 articles cover distinct brands)
     for sc in SCENARIOS:
         for p in PRODUCTS:
             queue.append({
@@ -926,8 +919,6 @@ def build_review_queue() -> list:
                 "scenario_slug": sc["slug_suffix"],
                 "category": sc["room_focus"]
             })
-
-    # Tier 3: Head-to-head comparisons between different brands/models
     n = len(PRODUCTS)
     for i in range(n):
         for j in range(i + 1, n):
@@ -941,7 +932,6 @@ def build_review_queue() -> list:
                     "product2_id": p2["id"],
                     "category": "Head-to-Head Comparison"
                 })
-
     return queue
 
 
@@ -962,7 +952,7 @@ def safe_json_for_script(obj) -> str:
 
 
 # ==============================================================================
-# SHARED STYLES & LAYOUT COMPONENTS (MODERN GRAY THEME)
+# SHARED STYLES
 # ==============================================================================
 BASE_CSS = """
 :root {
@@ -993,8 +983,6 @@ body {
 a { color: var(--accent-teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
 .container { max-width: 1180px; margin: 0 auto; padding: 0 18px; }
-
-/* Top Promo Banner */
 .top-banner {
   background: linear-gradient(90deg, #1f2937 0%, #374151 100%);
   color: #f9fafb;
@@ -1009,8 +997,6 @@ a:hover { text-decoration: underline; }
   margin-left: 8px;
   text-decoration: underline;
 }
-
-/* Header & Nav */
 header {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-color);
@@ -1037,8 +1023,6 @@ header {
 nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
 nav a { font-weight: 600; font-size: 0.92rem; color: #374151; }
 nav a:hover { color: var(--accent-teal); text-decoration: none; }
-
-/* Hero */
 .hero {
   background: linear-gradient(135deg, #27303f 0%, #3f4a5c 100%);
   color: #ffffff;
@@ -1056,8 +1040,6 @@ nav a:hover { color: var(--accent-teal); text-decoration: none; }
   font-size: 0.82rem;
   font-weight: 600;
 }
-
-/* Sections & Cards */
 section { padding: 34px 0; }
 .section-title {
   font-size: 1.55rem;
@@ -1076,8 +1058,6 @@ section { padding: 34px 0; }
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
 .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-
-/* Buttons */
 .btn {
   display: inline-block;
   padding: 10px 16px;
@@ -1105,8 +1085,6 @@ section { padding: 34px 0; }
   border: 1px solid #9ca3af;
 }
 .btn-outline:hover { background: #d1d5db; text-decoration: none; }
-
-/* Calculator UI */
 .calc-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 22px; align-items: start; }
 @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
 .form-group { margin-bottom: 14px; }
@@ -1132,7 +1110,6 @@ input[type="number"], input[type="text"], select {
   cursor: pointer;
 }
 .unit-btn.active { background: var(--accent-teal); color: #ffffff; border-color: var(--accent-teal); }
-
 .result-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 18px; }
 .kpi-box {
   background: #e5e7eb;
@@ -1145,8 +1122,6 @@ input[type="number"], input[type="text"], select {
 .kpi-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: #374151; }
 .kpi-val { font-size: 1.55rem; font-weight: 800; color: #111827; margin-top: 2px; }
 .kpi-sub { font-size: 0.78rem; color: #4b5563; }
-
-/* Promo Banner Mid-Page */
 .mid-banner {
   background: linear-gradient(120deg, #1f2937 0%, #0f766e 100%);
   color: #ffffff;
@@ -1161,8 +1136,6 @@ input[type="number"], input[type="text"], select {
 }
 .mid-banner h3 { font-size: 1.35rem; margin-bottom: 6px; }
 .mid-banner p { color: #e2e8f0; max-width: 680px; font-size: 0.95rem; }
-
-/* Product & Review Cards */
 .badge {
   display: inline-block;
   background: #e2e8f0;
@@ -1190,15 +1163,11 @@ input[type="number"], input[type="text"], select {
 .spec-list li { padding: 3px 0; border-bottom: 1px dashed #d1d5db; display: flex; justify-content: space-between; gap: 8px; }
 .card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
 .card-actions .btn { flex: 1; font-size: 0.85rem; padding: 9px 10px; }
-
-/* Tables */
 .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border-color); background: var(--bg-card); }
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th, td { padding: 11px 13px; text-align: left; border-bottom: 1px solid #d1d5db; }
 th { background: #e5e7eb; font-weight: 800; color: #111827; white-space: nowrap; }
 tr:hover td { background: #f1f5f9; }
-
-/* Search Bar */
 .search-controls {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -1206,8 +1175,6 @@ tr:hover td { background: #f1f5f9; }
   margin-bottom: 18px;
 }
 @media (max-width: 760px) { .search-controls { grid-template-columns: 1fr; } }
-
-/* FAQ Accordion */
 details.faq-item {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -1222,8 +1189,6 @@ details.faq-item summary {
   font-size: 1rem;
 }
 details.faq-item p { margin-top: 10px; color: #374151; font-size: 0.95rem; }
-
-/* Article Layout */
 .article-wrap { max-width: 900px; margin: 28px auto; }
 .breadcrumb { font-size: 0.86rem; color: #4b5563; margin-bottom: 14px; }
 .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
@@ -1231,8 +1196,6 @@ details.faq-item p { margin-top: 10px; color: #374151; font-size: 0.95rem; }
 .pros-box { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 8px; padding: 16px; }
 .cons-box { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 16px; }
 .pros-box ul, .cons-box ul { margin-left: 18px; margin-top: 8px; font-size: 0.93rem; }
-
-/* Footer */
 footer {
   background: var(--bg-dark);
   color: #d1d5db;
@@ -1308,7 +1271,7 @@ def render_footer(prefix: str = "", total_reviews: int = 0) -> str:
 
 
 # ==============================================================================
-# REVIEW PAGE GENERATOR (STANDALONE, SCENARIO & VERSUS)
+# REVIEW PAGE GENERATOR
 # ==============================================================================
 def get_product(pid: str) -> dict:
     for p in PRODUCTS:
@@ -1339,7 +1302,6 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
     annual_power = calc_annual_power_cost(p["watts"])
     tco_5yr = calc_5yr_tco(p)
 
-    # Build type-specific body sections
     if item["type"] == "standalone":
         meta_desc = f"Complete {CURRENT_YEAR} {p['name']} review: {p['cadr_cfm']} CFM CADR ({cadr_m3h} m³/h), verified room coverage at 4.8 ACH ({area_48ach} sq ft), {p['noise_min']}-{p['noise_max']} dBA noise levels, and ${tco_5yr} 5-year ownership cost."
         intro_html = f"""
@@ -1425,7 +1387,6 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
     pros_li = "".join(f"<li>{html.escape(x)}</li>" for x in p["pros"])
     cons_li = "".join(f"<li>{html.escape(x)}</li>" for x in p["cons"])
 
-    # Related internal links (SEO silo)
     related_links = [r for r in all_reviews if r["slug"] != item["slug"]][-6:]
     related_html = "".join(
         f'<li><a href="{r["slug"]}.html">{html.escape(r["title"])}</a> <span style="color:#6b7280;font-size:0.82rem;">({r["date"]})</span></li>'
@@ -1480,7 +1441,7 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{html.escape(item['title'])} | {SITE_NAME}</title>
-  <meta name="google-site-verification" content="pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8" />
+  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
   <meta name="description" content="{html.escape(meta_desc)}">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{html.escape(item['title'])}">
@@ -1497,13 +1458,11 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
     <div class="breadcrumb">
       <a href="../index.html">Home</a> &rsaquo; <a href="../index.html#reviews">Daily Reviews</a> &rsaquo; {html.escape(item['category'])}
     </div>
-
     <article class="card">
       <span class="badge badge-teal">{html.escape(item['category'])}</span>
       <span class="badge badge-amber">Published: {pub_date}</span>
       <span class="badge">Rating: {p['rating']}/5.0</span>
       <h1 style="font-size:clamp(1.5rem, 3vw, 2.1rem);line-height:1.25;margin:8px 0 14px;">{html.escape(item['title'])}</h1>
-
       <div class="result-kpis" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-bottom:20px;">
         <div class="kpi-box highlight">
           <div class="kpi-label">Verified CADR</div>
@@ -1526,30 +1485,19 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
           <div class="kpi-sub">${p['filter_cost_yr']}/yr Filter</div>
         </div>
       </div>
-
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;">
         <a class="btn btn-amazon" style="flex:1;min-width:220px;" href="{amz_url}" target="_blank" rel="nofollow sponsored noopener">Check {html.escape(p['name'])} Price on Amazon &rarr;</a>
         <a class="btn btn-outline" style="flex:1;min-width:220px;" href="{filter_url}" target="_blank" rel="nofollow sponsored noopener">Check Replacement HEPA Filters &rarr;</a>
       </div>
-
       {intro_html}
       {extra_section}
-
       <h2 style="margin:24px 0 10px;">Key Strengths &amp; Trade-Offs</h2>
       <div class="pros-cons">
-        <div class="pros-box">
-          <strong>What Stands Out (Pros)</strong>
-          <ul>{pros_li}</ul>
-        </div>
-        <div class="cons-box">
-          <strong>Consider Before Buying (Cons)</strong>
-          <ul>{cons_li}</ul>
-        </div>
+        <div class="pros-box"><strong>What Stands Out (Pros)</strong><ul>{pros_li}</ul></div>
+        <div class="cons-box"><strong>Consider Before Buying (Cons)</strong><ul>{cons_li}</ul></div>
       </div>
-
       <h2 style="margin:24px 0 10px;">5-Year Operating Cost &amp; Filter Maintenance</h2>
       <p>Assuming continuous 24/7 blended operation at $0.16/kWh, the {html.escape(p['name'])} consumes approximately <strong>${annual_power} per year</strong> in electricity. Combined with roughly <strong>${p['filter_cost_yr']} annually</strong> for genuine replacement filters (after Year 1's included filter), your realistic 5-year Total Cost of Ownership is <strong>${tco_5yr}</strong>.</p>
-
       <div class="mid-banner" style="margin:26px 0 18px;">
         <div>
           <h3>Not Sure If {p['cadr_cfm']} CFM Fits Your Exact Room?</h3>
@@ -1560,7 +1508,6 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
           <a class="btn btn-outline" href="../index.html#calculator">Open CADR Calculator</a>
         </div>
       </div>
-
       {f'<h3 style="margin-top:24px;margin-bottom:10px;">More Recent Air Purifier Reviews</h3><ul style="margin-left:18px;line-height:1.9;">{related_html}</ul>' if related_html else ''}
     </article>
   </main>
@@ -1611,7 +1558,6 @@ def render_homepage(all_reviews: list) -> str:
         </div>
         """)
 
-    # Latest Reviews Cards (show newest 18 on homepage, all searchable in live catalog)
     latest_reviews_html = []
     for r in reversed(all_reviews[-18:]):
         p = get_product(r["product_id"])
@@ -1630,7 +1576,6 @@ def render_homepage(all_reviews: list) -> str:
         </div>
         """)
 
-    # Master Comparison Table Rows (top 14 flagship models)
     comp_rows = []
     for p in PRODUCTS[:14]:
         area48 = calc_room_at_ach(p["cadr_cfm"], 4.8)
@@ -1648,7 +1593,6 @@ def render_homepage(all_reviews: list) -> str:
         </tr>
         """)
 
-    # FAQ HTML & Schema
     faq_html = "".join(
         f'<details class="faq-item"><summary>{html.escape(f["q"])}</summary><p>{html.escape(f["a"])}</p></details>'
         for f in FAQS
@@ -1668,18 +1612,14 @@ def render_homepage(all_reviews: list) -> str:
             {
                 "@type": "FAQPage",
                 "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": f["q"],
-                        "acceptedAnswer": {"@type": "Answer", "text": f["a"]}
-                    }
+                    {"@type": "Question", "name": f["q"],
+                     "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
                     for f in FAQS
                 ]
             }
         ]
     }
 
-    # Client-side JSON payload
     products_client = []
     for p in PRODUCTS:
         products_client.append({
@@ -1707,6 +1647,7 @@ def render_homepage(all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{SITE_NAME} — HEPA Air Purifier CADR &amp; ACH Room Sizing Calculator ({CURRENT_YEAR})</title>
+  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
   <meta name="description" content="Calculate exact HEPA air purifier CADR (CFM & m³/h) for your room dimensions, ceiling height, allergies, or wildfire smoke. Compare 36+ models & read 3 fresh reviews daily.">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{SITE_NAME} — HEPA Air Purifier CADR & ACH Calculator">
@@ -1733,19 +1674,16 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- CALCULATOR SECTION -->
   <section id="calculator">
     <div class="container">
       <div class="calc-grid">
         <div class="card">
           <h2 class="section-title" style="font-size:1.3rem;">1. Enter Your Room Dimensions</h2>
           <p class="section-sub" style="margin-bottom:14px;">Supports both Imperial (Feet) and Metric (Meters).</p>
-
           <div class="unit-toggle">
             <button type="button" id="btn-imp" class="unit-btn active" onclick="setUnit('imperial')">Imperial (Feet / CFM)</button>
             <button type="button" id="btn-met" class="unit-btn" onclick="setUnit('metric')">Metric (Meters / m&sup3;/h)</button>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label id="lbl-len" for="inp-len">Length (ft)</label>
@@ -1760,7 +1698,6 @@ def render_homepage(all_reviews: list) -> str:
               <input type="number" id="inp-hgt" value="8" min="6" max="30" step="0.5" oninput="runCalc()">
             </div>
           </div>
-
           <div class="form-group">
             <label for="inp-ach">Target Air Quality Goal (Air Changes Per Hour)</label>
             <select id="inp-ach" onchange="runCalc()">
@@ -1771,7 +1708,6 @@ def render_homepage(all_reviews: list) -> str:
               <option value="6">6.0 ACH — Medical-Grade / Ultra-Clean Air</option>
             </select>
           </div>
-
           <div class="form-group">
             <label for="inp-budget">Preferred Budget Tier</label>
             <select id="inp-budget" onchange="runCalc()">
@@ -1788,7 +1724,6 @@ def render_homepage(all_reviews: list) -> str:
         <div class="card">
           <h2 class="section-title" style="font-size:1.3rem;">2. Required CADR &amp; Matched Purifiers</h2>
           <p class="section-sub" style="margin-bottom:14px;">Instant sizing results and verified Amazon units that meet your exact airflow requirement.</p>
-
           <div class="result-kpis">
             <div class="kpi-box highlight">
               <div class="kpi-label">Minimum Required CADR</div>
@@ -1811,7 +1746,6 @@ def render_homepage(all_reviews: list) -> str:
               <div class="kpi-sub" id="out-vol-m3">72.5 m&sup3;</div>
             </div>
           </div>
-
           <h3 style="font-size:1rem;margin-bottom:10px;">Top Matched Air Purifiers for Your Room:</h3>
           <div id="calc-matches" class="grid-2" style="gap:12px;"></div>
         </div>
@@ -1819,7 +1753,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- MID-PAGE HIGH-CTR BANNER -->
   <section style="padding:10px 0 24px;">
     <div class="container">
       <div class="mid-banner">
@@ -1832,7 +1765,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- BEST SELLERS SECTION -->
   <section id="bestsellers">
     <div class="container">
       <h2 class="section-title">Best-Selling HEPA Air Purifiers ({CURRENT_YEAR})</h2>
@@ -1843,7 +1775,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- INSTANT SEARCH SECTION -->
   <section id="search">
     <div class="container">
       <div class="card">
@@ -1876,7 +1807,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- SIDE-BY-SIDE COMPARISON SECTION -->
   <section id="compare">
     <div class="container">
       <h2 class="section-title">Interactive Side-by-Side Purifier Comparison</h2>
@@ -1898,20 +1828,13 @@ def render_homepage(all_reviews: list) -> str:
         </div>
         <div class="table-wrap" id="cmp-output"></div>
       </div>
-
       <h3 style="margin-bottom:10px;">Master Specification Comparison Table</h3>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Model</th>
-              <th>CADR (CFM)</th>
-              <th>4.8 ACH Room</th>
-              <th>Noise (dBA)</th>
-              <th>Max Watts</th>
-              <th>Filter/Yr</th>
-              <th>5-Yr TCO</th>
-              <th>Buy</th>
+              <th>Model</th><th>CADR (CFM)</th><th>4.8 ACH Room</th><th>Noise (dBA)</th>
+              <th>Max Watts</th><th>Filter/Yr</th><th>5-Yr TCO</th><th>Buy</th>
             </tr>
           </thead>
           <tbody>
@@ -1922,7 +1845,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- DAILY AUTOMATED REVIEWS SECTION -->
   <section id="reviews">
     <div class="container">
       <h2 class="section-title">Latest Daily Air Purifier Reviews (+3 Added Daily)</h2>
@@ -1933,7 +1855,6 @@ def render_homepage(all_reviews: list) -> str:
     </div>
   </section>
 
-  <!-- FAQ SECTION -->
   <section id="faq">
     <div class="container">
       <h2 class="section-title">Frequently Asked Questions (CADR, ACH &amp; HEPA Buying Guide)</h2>
@@ -2060,22 +1981,30 @@ def render_homepage(all_reviews: list) -> str:
 
       if (revMatches.length) {{
         cards += revMatches.map(r => `
-          <div class="product-card" style="background:#eef2f7;">
+          <div class="product-card" style="background:#f0fdfa;border-color:#5eead4;">
             <div>
-              <span class="badge badge-amber">Review Article</span>
+              <span class="badge badge-teal">Review Article</span>
               <h3><a href="reviews/${{r.slug}}.html" style="color:#111827;">${{r.title}}</a></h3>
-              <p style="font-size:0.82rem;color:#4b5563;margin:6px 0 12px;">Category: ${{r.category}} &bull; Published ${{r.date}}</p>
+              <p style="font-size:0.82rem;color:#4b5563;margin-top:6px;">Published: ${{r.date}} &bull; ${{r.category}}</p>
             </div>
-            <a class="btn btn-teal" href="reviews/${{r.slug}}.html">Open Review &rarr;</a>
+            <div class="card-actions">
+              <a class="btn btn-teal" href="reviews/${{r.slug}}.html">Read Full Article &rarr;</a>
+            </div>
           </div>
         `).join('');
       }}
-      document.getElementById('srch-results').innerHTML = cards || '<p style="color:#4b5563;">No purifiers matched your filters. Try lowering the minimum CADR or clearing search keywords.</p>';
+
+      if (!cards) {{
+        cards = '<p style="color:#6b7280;grid-column:1/-1;">No products or reviews matched your filters. Try broadening your search.</p>';
+      }}
+      document.getElementById('srch-results').innerHTML = cards;
     }}
 
     function selectCompareModel(pid) {{
-      document.getElementById('cmp-1').value = pid;
-      renderCompare();
+      const el = document.getElementById('cmp-1');
+      if (el) {{ el.value = pid; renderCompare(); }}
+      const compareSection = document.getElementById('compare');
+      if (compareSection) compareSection.scrollIntoView({{ behavior: 'smooth' }});
     }}
 
     function renderCompare() {{
@@ -2084,34 +2013,43 @@ def render_homepage(all_reviews: list) -> str:
         document.getElementById('cmp-2').value,
         document.getElementById('cmp-3').value
       ];
-      const picks = ids.map(id => PRODUCTS.find(p => p.id === id) || PRODUCTS[0]);
+      const chosen = ids.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+      if (!chosen.length) return;
+
       const rows = [
-        ['CADR Airflow', p => `<strong>${{p.cadr_cfm}} CFM</strong> (${{Math.round(p.cadr_cfm*1.699)}} m³/h)`],
-        ['4.8 ACH Room Size (8ft)', p => `<strong>${{p.area48}} sq ft</strong>`],
-        ['5.0 ACH Wildfire Smoke', p => `${{p.area5}} sq ft`],
+        ['CADR Airflow', p => `${{p.cadr_cfm}} CFM (${{Math.round(p.cadr_cfm * 1.699)}} m³/h)`],
+        ['4.8 ACH Room Size', p => `${{p.area48}} sq ft`],
+        ['5.0 ACH Smoke Coverage', p => `${{p.area5}} sq ft`],
         ['Noise Range', p => `${{p.noise_min}} – ${{p.noise_max}} dBA`],
-        ['Max Power Draw', p => `${{p.watts}} Watts (~$${{p.annual_power}}/yr)`],
-        ['Filtration Stages', p => p.filter_type],
+        ['Max Power Draw', p => `${{p.watts}} W`],
         ['Annual Filter Cost', p => `$${{p.filter_cost_yr}}/yr`],
-        ['Est. Unit Price', p => `~$${{p.price_est}}`],
-        ['5-Year Total Cost', p => `<strong>$${{p.tco5}}</strong>`],
-        ['Amazon Live Deal', p => `<a class="btn btn-amazon" style="padding:7px 12px;font-size:0.82rem;" href="${{p.url}}" target="_blank" rel="nofollow sponsored noopener">Check Price &rarr;</a>`]
+        ['Annual Power Cost', p => `$${{p.annual_power}}/yr`],
+        ['5-Year Total Cost', p => `$${{p.tco5}}`],
+        ['Tier', p => p.tier],
+        ['Best For', p => p.best_for]
       ];
-      let htmlTbl = '<table><thead><tr><th>Metric</th>' + picks.map(p => `<th>${{p.name}}</th>`).join('') + '</tr></thead><tbody>';
-      for (const [label, fn] of rows) {{
-        htmlTbl += `<tr><td><strong>${{label}}</strong></td>` + picks.map(p => `<td>${{fn(p)}}</td>`).join('') + '</tr>';
-      }}
-      htmlTbl += '</tbody></table>';
-      document.getElementById('cmp-output').innerHTML = htmlTbl;
+
+      let tableHtml = `<table><thead><tr><th>Metric</th>`;
+      chosen.forEach(p => {{ tableHtml += `<th>${{p.name}}</th>`; }});
+      tableHtml += `</tr></thead><tbody>`;
+      rows.forEach(([label, fn]) => {{
+        tableHtml += `<tr><td><strong>${{label}}</strong></td>`;
+        chosen.forEach(p => {{ tableHtml += `<td>${{fn(p)}}</td>`; }});
+        tableHtml += `</tr>`;
+      }});
+      tableHtml += `<tr><td><strong>Buy on Amazon</strong></td>`;
+      chosen.forEach(p => {{
+        tableHtml += `<td><a class="btn btn-amazon" style="padding:6px 10px;font-size:0.8rem;" href="${{p.url}}" target="_blank" rel="nofollow sponsored noopener">Check Price</a></td>`;
+      }});
+      tableHtml += `</tr></tbody></table>`;
+      document.getElementById('cmp-output').innerHTML = tableHtml;
     }}
 
-    // Initialize defaults
-    document.getElementById('cmp-1').value = 'coway-airmega-ap-1512hh';
-    document.getElementById('cmp-2').value = 'levoit-core-600s';
-    document.getElementById('cmp-3').value = 'blueair-blue-pure-211i-max';
-    runCalc();
-    runSearch();
-    renderCompare();
+    document.addEventListener('DOMContentLoaded', function() {{
+      runCalc();
+      runSearch();
+      renderCompare();
+    }});
   </script>
 </body>
 </html>
@@ -2119,160 +2057,108 @@ def render_homepage(all_reviews: list) -> str:
 
 
 # ==============================================================================
-# SEO FILES: SITEMAP, ROBOTS, RSS, README & INDEXNOW PING
+# SITEMAP, RSS, ROBOTS
 # ==============================================================================
-def write_sitemap(all_reviews: list) -> None:
-    urls = [
-        f"  <url>\n    <loc>{SITE_URL}/</loc>\n    <lastmod>{TODAY_ISO}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>"
-    ]
-    for r in reversed(all_reviews):
-        urls.append(
-            f"  <url>\n    <loc>{SITE_URL}/reviews/{r['slug']}.html</loc>\n    <lastmod>{r['date']}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>"
-        )
-    xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "\n".join(urls)
-        + "\n</urlset>\n"
-    )
-    (DOCS_DIR / "sitemap.xml").write_text(xml, encoding="utf-8")
-
-
-def write_robots() -> None:
-    txt = f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
-    (DOCS_DIR / "robots.txt").write_text(txt, encoding="utf-8")
-
-
-def write_rss(all_reviews: list) -> None:
-    items = []
-    for r in reversed(all_reviews[-50:]):
-        link = f"{SITE_URL}/reviews/{r['slug']}.html"
-        items.append(
-            f"    <item>\n"
-            f"      <title>{html.escape(r['title'])}</title>\n"
-            f"      <link>{link}</link>\n"
-            f"      <guid>{link}</guid>\n"
-            f"      <pubDate>{NOW_RFC822}</pubDate>\n"
-            f"      <description>{html.escape(r['title'])} — Independent CADR, ACH room sizing, noise, and 5-year filter cost analysis.</description>\n"
-            f"    </item>"
-        )
-    rss = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<rss version="2.0">\n'
-        '  <channel>\n'
-        f'    <title>{SITE_NAME} Daily HEPA Air Purifier Reviews</title>\n'
-        f'    <link>{SITE_URL}/</link>\n'
-        f'    <description>{SITE_TAGLINE}</description>\n'
-        f'    <lastBuildDate>{NOW_RFC822}</lastBuildDate>\n'
-        + "\n".join(items)
-        + "\n  </channel>\n</rss>\n"
-    )
-    (DOCS_DIR / "rss.xml").write_text(rss, encoding="utf-8")
-
-
-def write_readme(all_reviews: list) -> None:
-    latest_links = "\n".join(
-        f"- [{r['title']}]({SITE_URL}/reviews/{r['slug']}.html) ({r['date']})"
-        for r in reversed(all_reviews[-15:])
-    )
-    readme = f"""# {SITE_NAME} — HEPA Air Purifier CADR & ACH Sizing Calculator
-
-**Live Website:** {SITE_URL}/  
-**XML Sitemap:** {SITE_URL}/sitemap.xml  
-**RSS Feed:** {SITE_URL}/rss.xml  
-**Total Published Product Reviews:** {len(all_reviews)} (Auto-adds 3 unique reviews daily via GitHub Actions)
-
-## Latest Automated Product Reviews
-{latest_links}
+def render_sitemap(all_reviews: list) -> str:
+    urls = [f"{SITE_URL}/"]
+    for r in all_reviews:
+        urls.append(f"{SITE_URL}/reviews/{r['slug']}.html")
+    items = ""
+    for u in urls:
+        prio = "1.0" if u == f"{SITE_URL}/" else "0.8"
+        items += f"  <url><loc>{u}</loc><lastmod>{TODAY_ISO}</lastmod><changefreq>daily</changefreq><priority>{prio}</priority></url>\n"
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{items}</urlset>
 """
-    Path("README.md").write_text(readme, encoding="utf-8")
 
 
-def ping_indexnow(new_urls: list) -> None:
-    if not new_urls or OWNER == "username":
-        return
-    key = hashlib.md5(f"{OWNER}-{REPO}-aircadrpro".encode("utf-8")).hexdigest()
-    (DOCS_DIR / f"{key}.txt").write_text(key, encoding="utf-8")
-    host = SITE_URL.replace("https://", "").split("/")[0]
-    payload = json.dumps({
-        "host": host,
-        "key": key,
-        "keyLocation": f"{SITE_URL}/{key}.txt",
-        "urlList": [f"{SITE_URL}/"] + new_urls
-    }).encode("utf-8")
-    req = urllib.request.Request(
-        "https://api.indexnow.org/indexnow",
-        data=payload,
-        headers={"Content-Type": "application/json; charset=utf-8"},
-        method="POST"
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            print(f"IndexNow ping status: {resp.status}")
-    except Exception as exc:
-        print(f"IndexNow ping skipped/warning (non-fatal): {exc}")
+def render_rss(all_reviews: list) -> str:
+    items = ""
+    for r in reversed(all_reviews[-50:]):
+        p = get_product(r["product_id"])
+        link = f"{SITE_URL}/reviews/{r['slug']}.html"
+        items += f"""  <item>
+    <title>{html.escape(r['title'])}</title>
+    <link>{link}</link>
+    <guid>{link}</guid>
+    <pubDate>{NOW_RFC822}</pubDate>
+    <description>{html.escape(p['name'])} — {p['cadr_cfm']} CFM CADR, {p['noise_min']}-{p['noise_max']} dBA, ${p['price_est']} estimated price.</description>
+  </item>
+"""
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>{SITE_NAME} — Daily Air Purifier Reviews</title>
+  <link>{SITE_URL}/</link>
+  <description>{SITE_TAGLINE}</description>
+  <lastBuildDate>{NOW_RFC822}</lastBuildDate>
+{items}</channel>
+</rss>
+"""
+
+
+def render_robots() -> str:
+    return f"""User-agent: *
+Allow: /
+Sitemap: {SITE_URL}/sitemap.xml
+"""
 
 
 # ==============================================================================
-# MAIN EXECUTION PIPELINE
+# MAIN BUILD
 # ==============================================================================
-def main() -> None:
+def main():
+    DOCS_DIR.mkdir(exist_ok=True)
     REVIEWS_DIR.mkdir(parents=True, exist_ok=True)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    (DOCS_DIR / ".nojekyll").write_text("", encoding="utf-8")
 
     state = load_state()
-    published_set = set(state.get("published_slugs", []))
-    all_reviews = load_reviews()
+    reviews = load_reviews()
     queue = build_review_queue()
 
-    # Select next 3 completely distinct ungenerated articles
-    new_items = []
-    for item in queue:
-        if item["slug"] not in published_set:
-            new_items.append(item)
-            if len(new_items) >= ARTICLES_PER_RUN:
-                break
+    published_slugs = set(state.get("published_slugs", []))
+    pending = [item for item in queue if item["slug"] not in published_slugs]
+    new_items = pending[:ARTICLES_PER_RUN]
 
-    new_urls = []
     for item in new_items:
-        record = {
+        review_record = {
             "slug": item["slug"],
             "title": item["title"],
             "type": item["type"],
             "product_id": item["product_id"],
-            "product2_id": item.get("product2_id", ""),
-            "scenario_slug": item.get("scenario_slug", ""),
             "category": item["category"],
-            "date": TODAY_ISO
+            "date": TODAY_ISO,
         }
-        all_reviews.append(record)
-        published_set.add(item["slug"])
-        new_urls.append(f"{SITE_URL}/reviews/{item['slug']}.html")
+        if "product2_id" in item:
+            review_record["product2_id"] = item["product2_id"]
+        if "scenario_slug" in item:
+            review_record["scenario_slug"] = item["scenario_slug"]
 
-    # Render HTML pages for newly added reviews (and rebuild any missing files)
-    for rec in all_reviews:
-        target_html = REVIEWS_DIR / f"{rec['slug']}.html"
-        if not target_html.exists() or rec["slug"] in {x["slug"] for x in new_items}:
-            page_html = render_review_page(rec, rec["date"], all_reviews)
-            target_html.write_text(page_html, encoding="utf-8")
+        reviews.append(review_record)
+        published_slugs.add(item["slug"])
 
-    # Save updated state & catalog
-    state["published_slugs"] = list(published_set)
+        page_html = render_review_page(item, TODAY_ISO, reviews)
+        (REVIEWS_DIR / f"{item['slug']}.html").write_text(page_html, encoding="utf-8")
+
+    state["published_slugs"] = sorted(published_slugs)
     state["total_runs"] = state.get("total_runs", 0) + 1
     state["last_run"] = TODAY_ISO
-    STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
-    REVIEWS_JSON.write_text(json.dumps(all_reviews, indent=2), encoding="utf-8")
+    STATE_FILE.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
+    REVIEWS_JSON.write_text(json.dumps(reviews, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # Build homepage & technical SEO files
-    (DOCS_DIR / "index.html").write_text(render_homepage(all_reviews), encoding="utf-8")
-    write_sitemap(all_reviews)
-    write_robots()
-    write_rss(all_reviews)
-    write_readme(all_reviews)
-    ping_indexnow(new_urls)
+    (DOCS_DIR / "index.html").write_text(render_homepage(reviews), encoding="utf-8")
+    (DOCS_DIR / "sitemap.xml").write_text(render_sitemap(reviews), encoding="utf-8")
+    (DOCS_DIR / "rss.xml").write_text(render_rss(reviews), encoding="utf-8")
+    (DOCS_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
 
-    print(f"Build complete! Added {len(new_items)} new reviews. Total live reviews: {len(all_reviews)}.")
+    # File verifikasi Google (metode alternatif)
+    (DOCS_DIR / f"google{GOOGLE_SITE_VERIFICATION}.html").write_text(
+        f"google-site-verification: google{GOOGLE_SITE_VERIFICATION}.html",
+        encoding="utf-8",
+    )
+
+    print(f"Published {len(new_items)} new review pages. Total: {len(reviews)}.")
 
 
 if __name__ == "__main__":
