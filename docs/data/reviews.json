@@ -58,5 +58,29 @@
     "scenario_slug": "",
     "category": "Full Product Review",
     "date": "2026-11-24"
+  },
+  {
+    "slug": "iqair-healthpro-plus-cadr-review",
+    "title": "IQAir HealthPro Plus Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "iqair-healthpro-plus",
+    "category": "Full Product Review",
+    "date": "2026-11-25"
+  },
+  {
+    "slug": "medify-ma-112-cadr-review",
+    "title": "Medify MA-112 Medical Grade Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "medify-ma-112",
+    "category": "Full Product Review",
+    "date": "2026-11-25"
+  },
+  {
+    "slug": "coway-airmega-250-cadr-review",
+    "title": "Coway Airmega 250 Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "coway-airmega-250",
+    "category": "Full Product Review",
+    "date": "2026-11-25"
   }
 ]
