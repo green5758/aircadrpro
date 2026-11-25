@@ -15,11 +15,13 @@ SITE_NAME = "AirCADRPro"
 SITE_TAGLINE = "Precision HEPA Air Purifier CADR & ACH Room Sizing Calculator"
 ARTICLES_PER_RUN = 3
 
-# Tag verifikasi Google Search Console
+# Tag verifikasi Google Search Console (dipakai di <meta> pada setiap halaman)
 GOOGLE_SITE_VERIFICATION = "pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8"
 
-OWNER = os.environ.get("GITHUB_OWNER", "username")
+# GANTI DUA BARIS INI sesuai repo GitHub kamu:
+OWNER = os.environ.get("GITHUB_OWNER", "green5758")
 REPO = os.environ.get("GITHUB_REPO", "aircadrpro")
+
 if REPO.lower() == f"{OWNER.lower()}.github.io":
     SITE_URL = f"https://{OWNER}.github.io"
 else:
@@ -1441,7 +1443,7 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{html.escape(item['title'])} | {SITE_NAME}</title>
-  <meta name="google-site-verification" content="pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8" />
+  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
   <meta name="description" content="{html.escape(meta_desc)}">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{html.escape(item['title'])}">
@@ -1647,7 +1649,7 @@ def render_homepage(all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{SITE_NAME} — HEPA Air Purifier CADR &amp; ACH Room Sizing Calculator ({CURRENT_YEAR})</title>
-  <meta name="google-site-verification" content="pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8" />
+  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
   <meta name="description" content="Calculate exact HEPA air purifier CADR (CFM & m³/h) for your room dimensions, ceiling height, allergies, or wildfire smoke. Compare 36+ models & read 3 fresh reviews daily.">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{SITE_NAME} — HEPA Air Purifier CADR & ACH Calculator">
@@ -2152,13 +2154,8 @@ def main():
     (DOCS_DIR / "rss.xml").write_text(render_rss(reviews), encoding="utf-8")
     (DOCS_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
 
-    # File verifikasi Google (metode alternatif)
-    (DOCS_DIR / f"google{GOOGLE_SITE_VERIFICATION}.html").write_text(
-        f"google-site-verification: google{GOOGLE_SITE_VERIFICATION}.html",
-        encoding="utf-8",
-    )
-
     print(f"Published {len(new_items)} new review pages. Total: {len(reviews)}.")
+    print(f"Site URL: {SITE_URL}")
 
 
 if __name__ == "__main__":
