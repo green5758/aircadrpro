@@ -1441,7 +1441,7 @@ def render_review_page(item: dict, pub_date: str, all_reviews: list) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{html.escape(item['title'])} | {SITE_NAME}</title>
-  <meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}" />
+  <meta name="google-site-verification" content="pgvlG0f03ZrRZzbgDSXRhr6tsSfseFOhXCN6Yv_j5b8" />
   <meta name="description" content="{html.escape(meta_desc)}">
   <link rel="canonical" href="{canonical}">
   <meta property="og:title" content="{html.escape(item['title'])}">
