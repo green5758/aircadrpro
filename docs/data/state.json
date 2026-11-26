@@ -4,12 +4,15 @@
     "coway-airmega-250-cadr-review",
     "coway-airmega-400-cadr-review",
     "coway-airmega-ap-1512hh-cadr-review",
+    "coway-airmega-prox-cadr-review",
     "iqair-healthpro-plus-cadr-review",
     "levoit-core-600s-cadr-review",
     "levoit-vital-200s-cadr-review",
     "medify-ma-112-cadr-review",
-    "winix-5500-2-cadr-review"
+    "winix-5300-2-cadr-review",
+    "winix-5500-2-cadr-review",
+    "winix-am80-cadr-review"
   ],
-  "total_runs": 3,
-  "last_run": "2026-11-25"
+  "total_runs": 4,
+  "last_run": "2026-11-26"
 }

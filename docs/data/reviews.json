@@ -82,5 +82,29 @@
     "product_id": "coway-airmega-250",
     "category": "Full Product Review",
     "date": "2026-11-25"
+  },
+  {
+    "slug": "coway-airmega-prox-cadr-review",
+    "title": "Coway Airmega ProX Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "coway-airmega-prox",
+    "category": "Full Product Review",
+    "date": "2026-11-26"
+  },
+  {
+    "slug": "winix-5300-2-cadr-review",
+    "title": "Winix 5300-2 True HEPA Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "winix-5300-2",
+    "category": "Full Product Review",
+    "date": "2026-11-26"
+  },
+  {
+    "slug": "winix-am80-cadr-review",
+    "title": "Winix AM80 True HEPA Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "winix-am80",
+    "category": "Full Product Review",
+    "date": "2026-11-26"
   }
 ]
