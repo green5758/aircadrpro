@@ -106,5 +106,29 @@
     "product_id": "winix-am80",
     "category": "Full Product Review",
     "date": "2026-11-26"
+  },
+  {
+    "slug": "winix-9800-cadr-review",
+    "title": "Winix 9800 4-Stage Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "winix-9800",
+    "category": "Full Product Review",
+    "date": "2026-11-27"
+  },
+  {
+    "slug": "levoit-core-300s-cadr-review",
+    "title": "Levoit Core 300S Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "levoit-core-300s",
+    "category": "Full Product Review",
+    "date": "2026-11-27"
+  },
+  {
+    "slug": "levoit-core-400s-cadr-review",
+    "title": "Levoit Core 400S Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "levoit-core-400s",
+    "category": "Full Product Review",
+    "date": "2026-11-27"
   }
 ]
