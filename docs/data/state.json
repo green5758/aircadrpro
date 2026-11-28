@@ -1,6 +1,8 @@
 {
   "published_slugs": [
     "blueair-blue-pure-211i-max-cadr-review",
+    "blueair-blue-pure-311i-max-cadr-review",
+    "blueair-blue-pure-411i-max-cadr-review",
     "coway-airmega-250-cadr-review",
     "coway-airmega-400-cadr-review",
     "coway-airmega-ap-1512hh-cadr-review",
@@ -9,6 +11,7 @@
     "levoit-core-300s-cadr-review",
     "levoit-core-400s-cadr-review",
     "levoit-core-600s-cadr-review",
+    "levoit-everestair-cadr-review",
     "levoit-vital-200s-cadr-review",
     "medify-ma-112-cadr-review",
     "winix-5300-2-cadr-review",
@@ -16,6 +19,6 @@
     "winix-9800-cadr-review",
     "winix-am80-cadr-review"
   ],
-  "total_runs": 5,
-  "last_run": "2026-11-27"
+  "total_runs": 6,
+  "last_run": "2026-11-28"
 }

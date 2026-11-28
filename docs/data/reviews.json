@@ -130,5 +130,29 @@
     "product_id": "levoit-core-400s",
     "category": "Full Product Review",
     "date": "2026-11-27"
+  },
+  {
+    "slug": "levoit-everestair-cadr-review",
+    "title": "Levoit EverestAir Smart Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "levoit-everestair",
+    "category": "Full Product Review",
+    "date": "2026-11-28"
+  },
+  {
+    "slug": "blueair-blue-pure-311i-max-cadr-review",
+    "title": "Blueair Blue Pure 311i Max Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "blueair-blue-pure-311i-max",
+    "category": "Full Product Review",
+    "date": "2026-11-28"
+  },
+  {
+    "slug": "blueair-blue-pure-411i-max-cadr-review",
+    "title": "Blueair Blue Pure 411i Max Review (2026): Real CADR, Noise & 5-Year Filter Cost",
+    "type": "standalone",
+    "product_id": "blueair-blue-pure-411i-max",
+    "category": "Full Product Review",
+    "date": "2026-11-28"
   }
 ]
